@@ -7,4 +7,11 @@
       </list>
     </option>
   </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="hive_learn" />
+      </set>
+    </option>
+  </component>
 </project>
