@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Fast_Json" />
         <module name="hive_learn" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Fast_Json" target="1.7" />
       <module name="hive_learn" target="1.7" />
     </bytecodeTargetLevel>
   </component>
