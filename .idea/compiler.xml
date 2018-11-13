@@ -8,11 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Fast_Json" />
         <module name="hive_learn" />
+        <module name="Linux_op" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Fast_Json" target="1.7" />
       <module name="hive_learn" target="1.7" />
+      <module name="Linux_op" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

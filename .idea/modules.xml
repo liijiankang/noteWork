@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Fast_Json/Fast_Json.iml" filepath="$PROJECT_DIR$/Fast_Json/Fast_Json.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Linux_op/Linux_op.iml" filepath="$PROJECT_DIR$/Linux_op/Linux_op.iml" />
       <module fileurl="file://$PROJECT_DIR$/hive_learn/hive_learn.iml" filepath="$PROJECT_DIR$/hive_learn/hive_learn.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/noteWork.iml" filepath="$PROJECT_DIR$/.idea/noteWork.iml" />
     </modules>
