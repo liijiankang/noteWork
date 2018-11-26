@@ -62,13 +62,13 @@ public class hiveJDBC {
             e.printStackTrace();
         }
         try {
-            Class.forName(properties.getProperty("jdbc.driver"));
+            Class.forName(properties.getProperty("hive.driver"));
         } catch (ClassNotFoundException e) {
             logger.error("加载驱动失败");
             e.printStackTrace();
         }
         try {
-            connection = DriverManager.getConnection(properties.getProperty("jdbc.url"), properties.getProperty("jdbc.user"), properties.getProperty("jdbc.password"));
+            connection = DriverManager.getConnection(properties.getProperty("hive.url"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -109,6 +109,8 @@ public class hiveJDBC {
         ResultSet rs = null;
         try {
              ps = connection.prepareStatement("show databases");
+
+            System.out.println(ps.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }

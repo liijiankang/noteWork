@@ -1,7 +1,10 @@
 package com.ljk
 
+import scala.util.Random
+import scala.math.BigInt.probablePrime
+
 object TestScala {
   def main(args: Array[String]): Unit = {
-    print("hello")
+    print(probablePrime(3,Random))
   }
 }
