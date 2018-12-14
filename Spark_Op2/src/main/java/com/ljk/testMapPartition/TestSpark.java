@@ -1,13 +1,15 @@
 package com.ljk.testMapPartition;
 import org.apache.spark.SparkConf;
-import org.apache.spark.TaskContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.*;
+import org.apache.spark.sql.DataFrame;
+import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.SaveMode;
+import org.apache.spark.sql.hive.HiveContext;
 import scala.Serializable;
 import scala.Tuple2;
 
-import java.beans.Transient;
 import java.util.*;
 
 
@@ -17,10 +19,11 @@ import java.util.*;
  * @author: jiankang.li@hypers.com
  * @create: 2018-12-12 16:24
  **/
-public class TestMapPartition implements Serializable {
+public class TestSpark implements Serializable {
 
-    private static SparkConf sparkConf = new SparkConf().setAppName("TestMapPartition").setMaster("local[*]");
+    private static SparkConf sparkConf = new SparkConf().setAppName("TestSpark").setMaster("local[*]");
     private static final JavaSparkContext ctx = new JavaSparkContext(sparkConf);
+
 
     /**
      *测试wordcount
@@ -50,6 +53,9 @@ public class TestMapPartition implements Serializable {
         });
     }
 
+    /**
+     * 测试mapPartition
+     */
     public void testMapPartitions(){
         final JavaRDD<String> lines = ctx.textFile("C:\\Users\\lijk_\\Desktop\\properties.txt", 3);
         lines.mapPartitions(new FlatMapFunction<Iterator<String>, String>() {
@@ -67,9 +73,26 @@ public class TestMapPartition implements Serializable {
         }).saveAsTextFile("C:\\Users\\lijk_\\Desktop\\test.txt");
     }
 
+    public void testDataFrame(){
+        SQLContext sqlContext = new SQLContext(ctx);
+        Properties properties = new Properties();
+        properties.setProperty("url","jdbc:mysql://10.88.88.201:3306/test");
+        properties.setProperty("driver","org.mariadb.jdbc.Driver");
+        properties.setProperty("user","test");
+        properties.setProperty("password","123456");
+        DataFrame dataFrame = sqlContext.read().jdbc("jdbc:mysql://10.88.88.201:3306/test", "jiangjiang_test", properties);
+        dataFrame.show();
+
+        dataFrame.write().mode(SaveMode.Append).jdbc("jdbc:mysql://10.88.88.201:3306/test","test_ljktest",properties);
+    }
+
+
+
     public static void main(String[] args) {
-        TestMapPartition test = new TestMapPartition();
+        TestSpark test = new TestSpark();
         //test.testWordCount();
-        test.testMapPartitions();
+//        test.testMapPartitions();
+        test.testDataFrame();
+
     }
 }
