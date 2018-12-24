@@ -1,7 +1,7 @@
 {
   "cat":"it",
   "language":[
-    {"id":1,"ide":"eclipse","name":Java},
+    {"id":1,"ide":"eclipse","name":"java"},
     {"id":2,"ide":"XCode","name":"Swift"},
     {"id":3,"ide":"Visual Stdio","name":"C#"}
   ],

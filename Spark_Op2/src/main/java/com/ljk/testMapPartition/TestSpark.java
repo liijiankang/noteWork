@@ -1,14 +1,20 @@
 package com.ljk.testMapPartition;
+import groovy.sql.Sql;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hive.ql.exec.spark.session.SparkSession;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.*;
+import org.apache.spark.sql.Column;
 import org.apache.spark.sql.DataFrame;
 import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.hive.HiveContext;
 import scala.Serializable;
 import scala.Tuple2;
+import scala.collection.mutable.ArrayBuffer;
 
 import java.util.*;
 
@@ -21,8 +27,13 @@ import java.util.*;
  **/
 public class TestSpark implements Serializable {
 
-    private static SparkConf sparkConf = new SparkConf().setAppName("TestSpark").setMaster("local[*]");
-    private static final JavaSparkContext ctx = new JavaSparkContext(sparkConf);
+
+
+    Configuration configuration = new Configuration();
+    private static SparkConf sparkConf=new SparkConf().setAppName("TestSpark").setMaster("local[*]");
+    private static JavaSparkContext ctx=new JavaSparkContext(sparkConf);
+
+
 
 
     /**
@@ -76,7 +87,7 @@ public class TestSpark implements Serializable {
     public void testDataFrame(){
         SQLContext sqlContext = new SQLContext(ctx);
         Properties properties = new Properties();
-        properties.setProperty("url","jdbc:mysql://10.88.88.201:3306/test");
+//        properties.setProperty("url","jdbc:mysql://10.88.88.201:3306/test");
         properties.setProperty("driver","org.mariadb.jdbc.Driver");
         properties.setProperty("user","test");
         properties.setProperty("password","123456");
@@ -86,13 +97,29 @@ public class TestSpark implements Serializable {
         dataFrame.write().mode(SaveMode.Append).jdbc("jdbc:mysql://10.88.88.201:3306/test","test_ljktest",properties);
     }
 
+    public void TestHivePartition(){
+        HiveContext hiveContext = new HiveContext(ctx);
+
+        DataFrame table = hiveContext.table("test.partition_test")
+                .select(new Column("id"),new Column("name"),new Column("biz_date"),new Column("hfi_channel"),new Column("fetch_time")
+                ,new Column("bit_d"),new Column("channel"),new Column("fetch_t"))
+                .where(new Column("bit_d").isin("20181201","20181202"))
+                .where(new Column("channel").isin("daily","fix"));
+//        DataFrame sql = hiveContext.sql("select * from test.partition_test where bit_d in ('20181201','20181202') and channel in ('daily') and fetch_t in ('201812020600','201812020600')");
+        table.show(50);
+//        sql.show(50);
+//        DataFrame show_databases = hiveContext.sql("show databases");
+//        show_databases.show();
+    }
+
 
 
     public static void main(String[] args) {
         TestSpark test = new TestSpark();
         //test.testWordCount();
 //        test.testMapPartitions();
-        test.testDataFrame();
+//        test.testDataFrame();
+        test.TestHivePartition();
 
     }
 }

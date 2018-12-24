@@ -1,12 +1,15 @@
 package com.ljk;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
+import java.util.*;
 
 /**
  * @program: noteWork
@@ -90,8 +93,47 @@ public class TestJson {
 
     }
 
+    public  Map<String,ArrayList<String>> testJson() throws IOException {
+        FileInputStream fileInputStream = new FileInputStream("C:\\A-MyWork\\GitR\\git\\noteWork\\Fast_Json\\src\\main\\java\\com\\ljk\\test1.json");
+        byte[] bytes = new byte[2048];
+        int read = fileInputStream.read(bytes);
+        fileInputStream.close();
+        String json = new String(bytes);
+        String key = null;
+        HashMap<String, ArrayList<String>> map = new HashMap<>();
+        JSONArray parse = (JSONArray)JSONArray.parse(json);
+        for (int i = 0; i < parse.size(); i++) {
+            JSONObject jsonObject = parse.getJSONObject(i);
+            System.out.println(jsonObject);
+            Iterator<String> it = jsonObject.keySet().iterator();
+            while (it.hasNext()){
+                ArrayList<String> list = new ArrayList<>();
+                key = it.next();
+                if (jsonObject.get(key) instanceof String){
+                    list.add((String)jsonObject.get(key));
+                }
+                if (key != null && map.containsKey(key)){
+                    map.get(key).addAll(list);
+                }else if (key != null && !map.containsKey(key)){
+                    map.put(key,list);
+                }
+            }
+        }
+        System.out.println();
+        for (Map.Entry<String, ArrayList<String>> entry : map.entrySet()) {
+            System.out.println("key:"+entry.getKey()+" value:"+entry.getValue());
+        }
+
+        return map;
+    }
+
+
     public static void main(String[] args) throws IOException {
+        TestJson test = new TestJson();
 //        testCommonJson();
-        testAlibabaJsonUtil();
+//        testAlibabaJsonUtil();
+        Map<String, ArrayList<String>> map = test.testJson();
+
+
     }
 }

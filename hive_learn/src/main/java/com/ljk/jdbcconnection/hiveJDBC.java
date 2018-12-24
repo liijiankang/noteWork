@@ -109,8 +109,6 @@ public class hiveJDBC {
         ResultSet rs = null;
         try {
              ps = connection.prepareStatement("show databases");
-
-            System.out.println(ps.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
