@@ -277,6 +277,9 @@ public class BTree <Key extends Comparable<Key>,Value>{
     public static void main(String[] args)
     {
         BTree<String, String> st = new BTree<String, String>();
+        for (int i = 0; i < 10; i++) {
+            st.put("key"+i,"value"+i);
+        }
         System.out.println(st.toString());
     }
 

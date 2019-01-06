@@ -6,7 +6,11 @@
 
     <groupId>com.ljk</groupId>
     <artifactId>Spark_Op</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>Redis</module>
+    </modules>
 
     <name>Spark_Op</name>
     <!-- FIXME change it to the project's website -->
